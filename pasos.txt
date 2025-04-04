@@ -1,0 +1,99 @@
+ npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help init` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (backend) appsalon_mevn_backend
+version: (1.0.0)
+description: Backen para AppSalon en MEVN
+entry point: (index.js)
+test command:
+git repository:
+keywords:
+author: AMH
+license: (ISC)
+About to write to C:\Users\thinkpad\Desktop\Vue\vue jp\appsalon_mevn\backend\package.json:
+
+{
+  "name": "appsalon_mevn_backend",
+  "version": "1.0.0",
+  "description": "Backen para AppSalon en MEVN",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "AMH",
+  "license": "ISC"
+}
+
+
+Is this OK? (yes) yes
+
+crear index.js en raiz
+
+editar package.json
+ "scripts": {
+    "start": "node index.js"
+  },
+
+  npm run start
+
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+
+  npm run dev
+
+  si no funciona o para versiones anteriores
+    npm i -D nodemon
+        "dev": "nodemon index.js"
+
+
+instalar express 
+  npm i express
+
+apregar  al package.json para cambiar a ESM
+  "type": "module"
+
+  y cambiar el const express = require('express') por import express from 'express'
+
+instalar mongoose
+  npm i mongoose
+
+instalar dovEnv para crear archivo .env
+  npm i dotenv
+
+color para logs
+  npm i colors
+
+schematypes
+https://mongoosejs.com/docs/schematypes.html#schematypes
+
+seed 
+  agregar en package.json
+  "seed:import" : "node data/seed.js --import"
+    npm run seed:import    para agregar
+    npm run seed:destroy   para eliminar
+
+CORS
+  npm i cors
+
+bcrypt para hashear passwords
+  npm i bcrypt
+
+https://mailtrap.io/
+
+nodemailer
+  npm install nodemailer
+  crear archivo config/nodemailer.js
+  crear archivo email/authEmailService.js
+
+Json Web Token
+  npm install jsonwebtoken

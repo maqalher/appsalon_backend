@@ -1,7 +1,7 @@
 
 import User from '../models/User.js'
-import { sendEmailVerification } from '../emails/authEmailService.js'
-import { generateJWT } from '../utils/index.js'
+import { sendEmailVerification, sendEmailPasswordReset } from '../emails/authEmailService.js'
+import { generateJWT, uniqueId } from '../utils/index.js'
 
 const register = async(req, res) => {
     // Valida todos los campos
@@ -101,8 +101,87 @@ const login = async(req, res) => {
     }
 }
 
+const forgotPassword = async (req, res) => {
+    const { email } = req.body
+
+    // Comprobar si exite el usuario
+    const user = await User.findOne({email})
+    if(!user){
+        const error = new Error('El usuario no existe')
+        return res.status(404).json({msg: error.message})
+    }
+
+    // Generar Token
+    try {
+        user.token = uniqueId()
+        const result = await user.save()
+
+        await sendEmailPasswordReset({
+            name: result.name,
+            email: result.email,
+            token: result.token
+        })
+
+        res.json({
+            msg: 'Hemos enviado un email con las instrucciones'
+        })
+    } catch (error) {
+        console.log(error);
+        
+    }
+    
+}
+
+const verifyPasswordResetToken = async (req, res) => {
+    const {token} = req.params
+
+    const isValidToken = await User.findOne({token})
+    if(!isValidToken){
+        const error = new Error('Hubo un error, Token no valido')
+        return res.status(400).json({msg: error.message})
+    }
+
+    res.json({msg:'Token Valido'})
+    
+}
+
+const updatePassword = async (req, res) => {
+    const {password} = req.body
+    const {token} = req.params
+
+    const user = await User.findOne({token})
+    if(!user){
+        const error = new Error('Hubo un error, Token no valido')
+        return res.status(400).json({msg: error.message})
+    }
+
+    try {
+        user.toke = ''
+        user.password = password
+        await user.save()
+
+        res.json({
+            msg: 'Password modificado correctamante'
+        })
+    } catch (error) {
+       console.log(error);
+        
+    }
+    
+}
+
 const user = async(req, res) => {
     const { user } = req
+    res.json(user)
+}
+
+const admin = async(req, res) => {
+    const { user } = req
+    if(!user.admin){
+        const error = new Error('Accion no valida')
+        return res.status(403).json({msg: error.message})
+    }   
+    
     res.json(user)
 }
 
@@ -110,5 +189,9 @@ export {
     register,
     verifyAccount,
     login,
-    user
+    forgotPassword,
+    verifyPasswordResetToken,
+    updatePassword,
+    user,
+    admin
 }

@@ -47,7 +47,8 @@ const corsOptions = {
 }
 
 // app.use(cors())
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
+app.use(cors())
 
 // Definir una ruta 
 app.use('/api/services', servicesRoutes)

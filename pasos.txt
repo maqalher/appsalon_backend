@@ -100,3 +100,6 @@ Json Web Token
 
 Date-fns
   npm i date-fns
+
+
+para alojar se puede usar https://render.com/

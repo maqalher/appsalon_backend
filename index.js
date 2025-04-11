@@ -47,8 +47,7 @@ const corsOptions = {
 }
 
 // app.use(cors())
-// app.use(cors(corsOptions))
-app.use(cors())
+app.use(cors(corsOptions))
 
 // Definir una ruta 
 app.use('/api/services', servicesRoutes)
@@ -62,5 +61,5 @@ const PORT = process.env.PORT || 4000
 // arrancar la app
 app.listen(PORT, () => {
     console.log( colors.blue('El servidor se esta ejecutando en el puerto: ', PORT));
-    
+    console.log(process.env)
 })
